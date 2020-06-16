@@ -7,7 +7,7 @@ const App = (props) => {
   const {errorCount} = props;
 
   return <React.Fragment>
-    <WelcomeScreen errorCount = {errorCount}/>
+    <WelcomeScreen errorCount = {errorCount} onClick = {() => {}}/>
   </React.Fragment>;
 };
 
