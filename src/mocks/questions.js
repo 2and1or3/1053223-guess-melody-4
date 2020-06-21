@@ -1,7 +1,3 @@
-import React from "react";
-import renderer from "react-test-renderer";
-import App from './app.jsx';
-
 const questions = [
   {
     type: `genre`,
@@ -46,10 +42,4 @@ const questions = [
   },
 ];
 
-it(`Render App component`, () => {
-  const tree = renderer
-      .create(<App errorCount = {3} questions = {questions}/>)
-      .toJSON();
-
-  expect(tree).toMatchSnapshot();
-});
+export {questions};

@@ -11,9 +11,9 @@ describe(`Welcome component`, () => {
   it(`Button "play" available for click`, () => {
     const onButtonClick = jest.fn();
 
-    const wrapper = shallow(<Welcome errorCount = {3} onClick = {onButtonClick}/>);
+    const wrapper = shallow(<Welcome errorCount = {3} onPlayClick = {onButtonClick}/>);
     wrapper.find(`.welcome__button`).simulate(`click`);
 
-    expect(onButtonClick.mock.calls.length).toBe(1);
+    expect(onButtonClick).toHaveBeenCalledTimes(1);
   });
 });

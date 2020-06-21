@@ -3,12 +3,16 @@ import ReactDOM from "react-dom";
 
 import App from './components/app/app.jsx';
 
+import {questions} from './mocks/questions.js';
+
 const rootContainer = document.querySelector(`#root`);
 
-const ERROR_COUNT = 5;
+const Settings = {
+  ERROR_COUNT: 5,
+};
 
 
 ReactDOM.render(
-    <App errorCount = {ERROR_COUNT}/>,
+    <App errorCount = {Settings.ERROR_COUNT} questions = {questions}/>,
     rootContainer
 );

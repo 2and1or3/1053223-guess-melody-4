@@ -8,7 +8,8 @@ module.exports = {
   },
   devServer: {
     contentBase: path.join(__dirname, `public`),
-    open: true
+    open: true,
+    historyApiFallback: true,
   },
   module: {
     rules: [
