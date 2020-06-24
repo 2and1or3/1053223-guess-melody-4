@@ -5,26 +5,26 @@ const questions = [
     answers: [
       {
         genre: `rock`,
-        src: `src-for-track-1`,
+        src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
       },
       {
         genre: `jazz`,
-        src: `src-for-track-2`,
+        src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
       },
       {
         genre: `pop`,
-        src: `src-for-track-3`,
+        src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
       },
       {
         genre: `alternative`,
-        src: `src-for-track-4`,
+        src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
       }
     ]
   },
   {
     type: `artist`,
     artist: `true-person`,
-    trackSrc: `src-for-track`,
+    trackSrc: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
     answers: [
       {
         artist: `true-person`,
