@@ -46,7 +46,7 @@ describe(`QuestionGenreScreen component`, () => {
 
     const onAnswer = jest.fn();
 
-    const wrapper = shallow(<QuestionGenreScreen onAnswer = {onAnswer} question = {question}/>);
+    const wrapper = shallow(<QuestionGenreScreen onAnswer = {onAnswer} question = {question} renderPlayer = {() => {}}/>);
     const form = wrapper.find(`.game__tracks`);
     const inputs = wrapper.find(`.game__input`);
     const inputOne = inputs.at(0);
@@ -69,7 +69,7 @@ describe(`QuestionGenreScreen component`, () => {
     const onAnswer = jest.fn();
     const formSendPrevention = jest.fn();
 
-    const wrapper = shallow(<QuestionGenreScreen onAnswer = {onAnswer} question = {question}/>);
+    const wrapper = shallow(<QuestionGenreScreen onAnswer = {onAnswer} question = {question} renderPlayer = {() => {}}/>);
     const form = wrapper.find(`.game__tracks`);
     form.simulate(`submit`, {
       preventDefault: formSendPrevention,

@@ -37,7 +37,7 @@ describe(`QuestionArtistScreen component`, () => {
 
     const userAnswer = `true-person`;
 
-    const wrapper = shallow(<QuestionArtistScreen question = {question} onAnswer = {onAnswer}/>);
+    const wrapper = shallow(<QuestionArtistScreen question = {question} onAnswer = {onAnswer} renderPlayer = {() => {}}/>);
     const input = wrapper.find(`.artist__input`).at(0);
 
     input.simulate(`change`, mockEvent);

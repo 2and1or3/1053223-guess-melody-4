@@ -30,6 +30,7 @@ it(`Render QuestionGenreScreen component`, () => {
     .create(<QuestionGenreScreen
       question = {question}
       onAnswer = {() => {}}
+      renderPlayer = {() => {}}
     />)
     .toJSON();
 

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+
 const GameScreen = (props) => {
 
   return (
@@ -24,6 +25,11 @@ const GameScreen = (props) => {
       {props.children}
     </section>
   );
+};
+
+GameScreen.propTypes = {
+  gameType: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default GameScreen;

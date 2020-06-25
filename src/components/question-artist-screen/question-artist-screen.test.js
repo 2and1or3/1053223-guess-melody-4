@@ -27,6 +27,7 @@ it(`Render QuestionArtistScreen component`, () => {
     .create(<QuestionArtistScreen
       question = {question}
       onAnswer = {() => {}}
+      renderPlayer = {() => {}}
     />)
     .toJSON();
 
