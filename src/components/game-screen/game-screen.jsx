@@ -1,11 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import Mistakes from '../mistakes/mistakes.jsx';
+
 
 const GameScreen = (props) => {
+  const {gameType, children, maxMistakes, mistakes} = props;
 
   return (
-    <section className={`game game--${props.gameType}`}>
+    <section className={`game game--${gameType}`}>
       <header className="game__header">
         <a className="game__back" href="#">
           <span className="visually-hidden">Сыграть ещё раз</span>
@@ -16,18 +19,16 @@ const GameScreen = (props) => {
           <circle className="timer__line" cx="390" cy="390" r="370" style={{filter: `url(#blur)`, transform: `rotate(-90deg) scaleY(-1)`, transformOrigin: `center`}} />
         </svg>
 
-        <div className="game__mistakes">
-          <div className="wrong"></div>
-          <div className="wrong"></div>
-          <div className="wrong"></div>
-        </div>
+        <Mistakes maxMistakes = {maxMistakes} mistakes = {mistakes} />
       </header>
-      {props.children}
+      {children}
     </section>
   );
 };
 
 GameScreen.propTypes = {
+  maxMistakes: PropTypes.number.isRequired,
+  mistakes: PropTypes.number.isRequired,
   gameType: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };

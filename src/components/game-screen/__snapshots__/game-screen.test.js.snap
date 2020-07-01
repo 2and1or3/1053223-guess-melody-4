@@ -45,13 +45,13 @@ exports[`Render GameScreen component with artist type 1`] = `
       className="game__mistakes"
     >
       <div
-        className="wrong"
+        className=""
       />
       <div
-        className="wrong"
+        className=""
       />
       <div
-        className="wrong"
+        className=""
       />
     </div>
   </header>

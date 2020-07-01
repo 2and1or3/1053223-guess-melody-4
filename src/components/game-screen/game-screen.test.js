@@ -7,7 +7,7 @@ import {GameTypes} from '../../consts.js';
 it(`Render GameScreen component with artist type`, () => {
   const tree = renderer
     .create(
-        <GameScreen gameType = {GameTypes.ARTIST}>
+        <GameScreen gameType = {GameTypes.ARTIST} maxMistakes = {3} mistakes = {0}>
           {[]}
         </GameScreen>
     )

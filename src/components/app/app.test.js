@@ -1,6 +1,8 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import App from './app.jsx';
+
+import {App} from './app.jsx';
+
 
 const questions = [
   {
@@ -46,10 +48,71 @@ const questions = [
   },
 ];
 
-it(`Render App component`, () => {
-  const tree = renderer
-      .create(<App errorCount = {3} questions = {questions}/>)
+describe(`Render App component`, () => {
+  it(`Render WelcomeScreen component`, () => {
+    const tree = renderer
+      .create(
+          <App
+            maxMistakes = {3}
+            questions = {questions}
+            mistakes = {0}
+            step = {-1}
+            onPlayClick = {() => {}}
+            onAnswer = {() => {}}
+          />
+      )
       .toJSON();
 
-  expect(tree).toMatchSnapshot();
+    expect(tree).toMatchSnapshot();
+  });
+
+  it(`Render QuestionGenreScreen component`, () => {
+    const tree = renderer
+    .create(
+        <App
+          maxMistakes = {3}
+          questions = {questions}
+          mistakes = {1}
+          step = {0}
+          onPlayClick = {() => {}}
+          onAnswer = {() => {}}
+        />, {
+          createNodeMock: (element) => {
+            if (element.type === `audio`) {
+              return element;
+            }
+
+            return null;
+          }
+        }
+    )
+      .toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
+
+  it(`Render QuestionArtistScreen component`, () => {
+    const tree = renderer
+    .create(
+        <App
+          maxMistakes = {3}
+          questions = {questions}
+          mistakes = {1}
+          step = {1}
+          onPlayClick = {() => {}}
+          onAnswer = {() => {}}
+        />, {
+          createNodeMock: (element) => {
+            if (element.type === `audio`) {
+              return element;
+            }
+
+            return null;
+          }
+        }
+    )
+      .toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
 });
