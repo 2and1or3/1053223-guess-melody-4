@@ -8,22 +8,26 @@ import WelcomeScreen from '../welcome-screen/welcome-screen.jsx';
 import QuestionGenreScreen from '../question-genre-screen/question-genre-screen.jsx';
 import QuestionArtistScreen from '../question-artist-screen/question-artist-screen.jsx';
 import GameScreen from '../game-screen/game-screen.jsx';
+import GameOverScreen from '../game-over-screen/game-over-screen.jsx';
+import WinScreen from '../win-screen/win-screen.jsx';
 
-import withActivePlayer from '../../hocs/with-audio-player/with-audio-player.js';
+import withActivePlayer from '../../hocs/with-active-player/with-active-player.js';
+import withUserAnswer from '../../hocs/with-user-answer/with-user-answer.js';
 import {ActionCreator} from '../../reducer.js';
 
-import {GameTypes} from '../../consts.js';
+import {GameType} from '../../consts.js';
+import {genreProp, artistProp} from '../../props.js';
 
-const QuestionGenreScreenWrapped = withActivePlayer(QuestionGenreScreen);
+const QuestionGenreScreenWrapped = withActivePlayer(withUserAnswer(QuestionGenreScreen));
 const QuestionArtistScreenWrapped = withActivePlayer(QuestionArtistScreen);
 
 
 class App extends PureComponent {
   _renderGameScreen() {
-    const {questions, maxMistakes, step, onPlayClick, onAnswer, mistakes} = this.props;
+    const {questions, maxMistakes, step, onPlayClick, onAnswer, mistakes, onRepeat} = this.props;
     const question = questions[step];
 
-    if (step === -1 || step > questions.length - 1) {
+    if (step === -1) {
       return (
         <WelcomeScreen
           errorCount = {maxMistakes}
@@ -32,20 +36,32 @@ class App extends PureComponent {
       );
     }
 
+    if (mistakes >= maxMistakes) {
+      return (
+        <GameOverScreen onRepeat = {onRepeat}/>
+      );
+    }
+
+    if (step >= questions.length) {
+      return (
+        <WinScreen onRepeat = {onRepeat} quantity = {questions.length} mistakes = {mistakes}/>
+      );
+    }
+
     if (question) {
       switch (question.type) {
-        case GameTypes.ARTIST:
+        case GameType.ARTIST:
           return (
-            <GameScreen gameType = {GameTypes.ARTIST} maxMistakes = {maxMistakes} mistakes = {mistakes}>
+            <GameScreen gameType = {GameType.ARTIST} maxMistakes = {maxMistakes} mistakes = {mistakes}>
               <QuestionArtistScreenWrapped
                 question = {question}
                 onAnswer = {onAnswer}
               />
             </GameScreen>
           );
-        case GameTypes.GENRE:
+        case GameType.GENRE:
           return (
-            <GameScreen gameType = {GameTypes.GENRE} maxMistakes = {maxMistakes} mistakes = {mistakes}>
+            <GameScreen gameType = {GameType.GENRE} maxMistakes = {maxMistakes} mistakes = {mistakes}>
               <QuestionGenreScreenWrapped
                 question = {question}
                 onAnswer = {onAnswer}
@@ -68,12 +84,12 @@ class App extends PureComponent {
             {this._renderGameScreen()}
           </Route>
           <Route exact path="/artist">
-            <GameScreen gameType = {GameTypes.ARTIST} maxMistakes = {3} mistakes = {0}>
+            <GameScreen gameType = {GameType.ARTIST} maxMistakes = {3} mistakes = {0}>
               <QuestionArtistScreenWrapped question = {questions[1]} onAnswer = {() => {}}/>
             </GameScreen>
           </Route>
           <Route exact path="/genre">
-            <GameScreen gameType = {GameTypes.GENRE} maxMistakes = {3} mistakes = {0}>
+            <GameScreen gameType = {GameType.GENRE} maxMistakes = {3} mistakes = {0}>
               <QuestionGenreScreenWrapped question = {questions[0]} onAnswer = {() => {}}/>
             </GameScreen>
           </Route>
@@ -87,9 +103,10 @@ App.propTypes = {
   mistakes: PropTypes.number.isRequired,
   maxMistakes: PropTypes.number.isRequired,
   step: PropTypes.number.isRequired,
-  questions: PropTypes.array.isRequired,
+  questions: PropTypes.arrayOf(PropTypes.oneOfType([genreProp, artistProp])).isRequired,
   onPlayClick: PropTypes.func.isRequired,
   onAnswer: PropTypes.func.isRequired,
+  onRepeat: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -106,6 +123,9 @@ const mapDispatchToProps = (dispatch) => ({
   onAnswer: (question, answer) => {
     dispatch(ActionCreator.incrementMistakes(question, answer));
     dispatch(ActionCreator.incrementStep());
+  },
+  onRepeat: () => {
+    dispatch(ActionCreator.repeatGame());
   }
 });
 

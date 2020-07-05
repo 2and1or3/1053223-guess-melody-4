@@ -2,6 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 import {App} from './app.jsx';
+import {mockAudioNode} from '../../utils.js';
 
 
 const questions = [
@@ -48,17 +49,23 @@ const questions = [
   },
 ];
 
+const commonProps = {
+  maxMistakes: 3,
+  questions,
+  mistakes: 0,
+  step: -1,
+  onPlayClick: () => {},
+  onAnswer: () => {},
+  onRepeat: () => {},
+};
+
 describe(`Render App component`, () => {
   it(`Render WelcomeScreen component`, () => {
     const tree = renderer
       .create(
           <App
-            maxMistakes = {3}
-            questions = {questions}
-            mistakes = {0}
+            {...commonProps}
             step = {-1}
-            onPlayClick = {() => {}}
-            onAnswer = {() => {}}
           />
       )
       .toJSON();
@@ -70,20 +77,10 @@ describe(`Render App component`, () => {
     const tree = renderer
     .create(
         <App
-          maxMistakes = {3}
-          questions = {questions}
-          mistakes = {1}
+          {...commonProps}
           step = {0}
-          onPlayClick = {() => {}}
-          onAnswer = {() => {}}
         />, {
-          createNodeMock: (element) => {
-            if (element.type === `audio`) {
-              return element;
-            }
-
-            return null;
-          }
+          createNodeMock: mockAudioNode
         }
     )
       .toJSON();
@@ -95,20 +92,10 @@ describe(`Render App component`, () => {
     const tree = renderer
     .create(
         <App
-          maxMistakes = {3}
-          questions = {questions}
-          mistakes = {1}
+          {...commonProps}
           step = {1}
-          onPlayClick = {() => {}}
-          onAnswer = {() => {}}
         />, {
-          createNodeMock: (element) => {
-            if (element.type === `audio`) {
-              return element;
-            }
-
-            return null;
-          }
+          createNodeMock: mockAudioNode
         }
     )
       .toJSON();

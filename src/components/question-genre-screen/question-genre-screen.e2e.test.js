@@ -1,7 +1,7 @@
 import React from "react";
 import Enzyme from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import {shallow} from "enzyme";
+import {shallow, mount} from "enzyme";
 
 import QuestionGenreScreen from './question-genre-screen.jsx';
 
@@ -40,25 +40,31 @@ const mockChangeEvent = {
   }
 };
 
+const userAnswer = [true, false, false, false];
+
 describe(`QuestionGenreScreen component`, () => {
-  it(`Callback "onAnswer" receive correct args`, () => {
-    const userAnswer = [true, false, false, false];
+  it(`Callback "onSubmit" receive correct args`, () => {
 
-    const onAnswer = jest.fn();
+    const onSubmit = jest.fn((...args) => [...args]);
 
-    const wrapper = shallow(<QuestionGenreScreen onAnswer = {onAnswer} question = {question} renderPlayer = {() => {}}/>);
+    const wrapper = mount(
+        <QuestionGenreScreen
+          onSubmit = {onSubmit}
+          userAnswers = {userAnswer}
+          onChange = {() => {}}
+          question = {question}
+          renderPlayer = {() => {}}
+        />);
     const form = wrapper.find(`.game__tracks`);
     const inputs = wrapper.find(`.game__input`);
     const inputOne = inputs.at(0);
 
     inputOne.simulate(`change`, mockChangeEvent);
-
     form.simulate(`submit`, mockSubmitEvent);
 
-    expect(onAnswer).toHaveBeenCalledTimes(1);
+    expect(onSubmit).toHaveBeenCalledTimes(1);
 
-    expect(onAnswer.mock.calls[0][0]).toMatchObject(question);
-    expect(onAnswer.mock.calls[0][1]).toMatchObject(userAnswer);
+    expect(onSubmit.mock.calls[0][0]).toEqual(void 0);
 
     expect(
         wrapper.find(`.game__input`).map((input) => input.prop(`checked`))
@@ -66,16 +72,23 @@ describe(`QuestionGenreScreen component`, () => {
   });
 
   it(`Form sanding is prevented`, () => {
-    const onAnswer = jest.fn();
+    const onSubmit = jest.fn();
     const formSendPrevention = jest.fn();
 
-    const wrapper = shallow(<QuestionGenreScreen onAnswer = {onAnswer} question = {question} renderPlayer = {() => {}}/>);
+    const wrapper = shallow(
+        <QuestionGenreScreen
+          onSubmit = {onSubmit}
+          userAnswers = {userAnswer}
+          onChange = {() => {}}
+          question = {question}
+          renderPlayer = {() => {}}
+        />);
     const form = wrapper.find(`.game__tracks`);
     form.simulate(`submit`, {
       preventDefault: formSendPrevention,
     });
 
-    expect(onAnswer).toHaveBeenCalledTimes(1);
+    expect(onSubmit).toHaveBeenCalledTimes(1);
     expect(formSendPrevention).toHaveBeenCalledTimes(1);
   });
 });

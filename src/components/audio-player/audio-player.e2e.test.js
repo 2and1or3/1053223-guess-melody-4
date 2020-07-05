@@ -8,28 +8,19 @@ import AudioPlayer from './audio-player.jsx';
 Enzyme.configure({adapter: new Adapter()});
 
 describe(`AudioPlayer component`, () => {
-  it(`Play button changes onClick`, () => {
+  it(`Play button is clickable`, () => {
     const onClick = jest.fn();
 
     const wrapper = shallow(<AudioPlayer
-      isPlaying = {true}
-      src = {`path-to-track`}
-      onPlayButtonClick = {onClick}/>,
-    {disableLifecycleMethods: true});
+      isPlaying = {false}
+      isLoading = {false}
+      onClick = {onClick}
+    >{[]}</AudioPlayer>);
 
     const playButton = wrapper.find(`.track__button`);
 
-    expect(wrapper.exists(`.track__button--pause`)).toBe(true);
-
     playButton.simulate(`click`);
 
-    expect(wrapper.exists(`.track__button--play`)).toBe(true);
-
-    playButton.simulate(`click`);
-
-    expect(wrapper.exists(`.track__button--pause`)).toBe(true);
-    expect(wrapper.exists(`.track__button--play`)).toBe(false);
-
-    expect(onClick).toHaveBeenCalledTimes(2);
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 });

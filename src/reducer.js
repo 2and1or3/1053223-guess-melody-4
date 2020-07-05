@@ -1,5 +1,5 @@
 import {questions} from './mocks/questions.js';
-import {GameTypes} from './consts.js';
+import {GameType} from './consts.js';
 
 
 const initialState = {
@@ -9,9 +9,10 @@ const initialState = {
   maxMistakes: 3,
 };
 
-const ActionTypes = {
+const ActionType = {
   INCREMENT_STEP: `INCREMENT_STEP`,
   INCREMENT_MISTAKES: `INCREMENT_MISTAKES`,
+  REPEAT_GAME: `REPEAT_GAME`,
 };
 
 const extend = (a, b) => {
@@ -28,7 +29,7 @@ const isCorrectArtist = (question, answer) => question.artist === answer;
 
 const ActionCreator = {
   incrementStep: () => ({
-    type: ActionTypes.INCREMENT_STEP,
+    type: ActionType.INCREMENT_STEP,
     payload: 1,
   }),
 
@@ -36,36 +37,41 @@ const ActionCreator = {
     let isAnswerCorrect = false;
 
     switch (question.type) {
-      case GameTypes.GENRE:
+      case GameType.GENRE:
         isAnswerCorrect = isCorrectGenre(question, answer);
         break;
-      case GameTypes.ARTIST:
+      case GameType.ARTIST:
         isAnswerCorrect = isCorrectArtist(question, answer);
         break;
     }
 
     return {
-      type: ActionTypes.INCREMENT_MISTAKES,
+      type: ActionType.INCREMENT_MISTAKES,
       payload: isAnswerCorrect ? 0 : 1,
     };
-  }
+  },
+
+  repeatGame: () => ({
+    type: ActionType.REPEAT_GAME,
+    payload: null,
+  }),
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ActionTypes.INCREMENT_STEP:
+    case ActionType.INCREMENT_STEP:
       const step = state.step + action.payload;
 
-      if (step >= state.questions.length || state.mistakes >= state.maxMistakes) {
-        return extend({}, initialState);
-      }
       return extend(state, {step});
 
 
-    case ActionTypes.INCREMENT_MISTAKES:
+    case ActionType.INCREMENT_MISTAKES:
       const mistakes = state.mistakes + action.payload;
 
       return extend(state, {mistakes});
+
+    case ActionType.REPEAT_GAME:
+      return extend(initialState, {step: 0});
 
 
     default:
@@ -74,4 +80,4 @@ const reducer = (state = initialState, action) => {
 };
 
 
-export {ActionTypes, reducer, ActionCreator};
+export {ActionType, reducer, ActionCreator};

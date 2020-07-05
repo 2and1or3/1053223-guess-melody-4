@@ -29,8 +29,10 @@ it(`Render QuestionGenreScreen component`, () => {
   const tree = renderer
     .create(<QuestionGenreScreen
       question = {question}
-      onAnswer = {() => {}}
       renderPlayer = {() => {}}
+      userAnswers = {new Array(question.answers.length).fill(false)}
+      onSubmit = {() => {}}
+      onChange = {() => {}}
     />)
     .toJSON();
 

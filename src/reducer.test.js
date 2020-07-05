@@ -1,4 +1,4 @@
-import {reducer, ActionTypes, ActionCreator} from './reducer.js';
+import {reducer, ActionType, ActionCreator} from './reducer.js';
 
 const questions = [
   {
@@ -66,34 +66,13 @@ describe(`Reducer works correctly`, () => {
     };
 
     const action = {
-      type: ActionTypes.INCREMENT_STEP,
+      type: ActionType.INCREMENT_STEP,
       payload: 1,
     };
 
     const stateAfter = {
       mistakes: 0,
       step: 0,
-      maxMistakes: 3,
-      questions,
-    };
-
-    expect(reducer(stateBefore, action)).toEqual(stateAfter);
-  });
-
-  it(`Reducer should return initial state after last question`, () => {
-    const stateBefore = {
-      mistakes: 0,
-      step: questions.length - 1,
-      maxMistakes: 3,
-      questions,
-    };
-    const action = {
-      type: ActionTypes.INCREMENT_STEP,
-      payload: 1,
-    };
-    const stateAfter = {
-      mistakes: 0,
-      step: -1,
       maxMistakes: 3,
       questions,
     };
@@ -109,7 +88,7 @@ describe(`Reducer works correctly`, () => {
       questions,
     };
     const action = {
-      type: ActionTypes.INCREMENT_MISTAKES,
+      type: ActionType.INCREMENT_MISTAKES,
       payload: 1,
     };
     const stateAfter = {
@@ -121,12 +100,33 @@ describe(`Reducer works correctly`, () => {
 
     expect(reducer(stateBefore, action)).toEqual(stateAfter);
   });
+
+  it(`Reducer should change step field on 0`, () => {
+    const stateBefore = {
+      mistakes: 0,
+      step: 2,
+      maxMistakes: 3,
+      questions,
+    };
+    const action = {
+      type: ActionType.REPEAT_GAME,
+      payload: 1,
+    };
+    const stateAfter = {
+      mistakes: 0,
+      step: 0,
+      maxMistakes: 3,
+      questions,
+    };
+
+    expect(reducer(stateBefore, action)).toEqual(stateAfter);
+  });
 });
 
 describe(`Action creators work correctly`, () => {
   it(`Action creator return correct INCREMENT_STEP action`, () => {
     const correctAction = {
-      type: ActionTypes.INCREMENT_STEP,
+      type: ActionType.INCREMENT_STEP,
       payload: 1,
     };
 
@@ -159,7 +159,7 @@ describe(`Action creators work correctly`, () => {
     };
     const userAnswers = [true, false, false, false];
     const correctAction = {
-      type: ActionTypes.INCREMENT_MISTAKES,
+      type: ActionType.INCREMENT_MISTAKES,
       payload: 0,
     };
 
@@ -191,7 +191,7 @@ describe(`Action creators work correctly`, () => {
     };
     const userAnswers = [false, false, false, true];
     const correctAction = {
-      type: ActionTypes.INCREMENT_MISTAKES,
+      type: ActionType.INCREMENT_MISTAKES,
       payload: 1,
     };
 
@@ -220,7 +220,7 @@ describe(`Action creators work correctly`, () => {
     };
     const userAnswer = `true-person`;
     const correctAction = {
-      type: ActionTypes.INCREMENT_MISTAKES,
+      type: ActionType.INCREMENT_MISTAKES,
       payload: 0,
     };
 
@@ -249,10 +249,19 @@ describe(`Action creators work correctly`, () => {
     };
     const userAnswer = `false-person`;
     const correctAction = {
-      type: ActionTypes.INCREMENT_MISTAKES,
+      type: ActionType.INCREMENT_MISTAKES,
       payload: 1,
     };
 
     expect(ActionCreator.incrementMistakes(question, userAnswer)).toEqual(correctAction);
+  });
+
+  it(`Action creator should return correct action for repeatGame`, () => {
+    const correctAction = {
+      type: ActionType.REPEAT_GAME,
+      payload: null,
+    };
+
+    expect(ActionCreator.repeatGame()).toEqual(correctAction);
   });
 });

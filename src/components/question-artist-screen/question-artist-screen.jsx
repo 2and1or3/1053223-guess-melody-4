@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import {artistProp} from '../../props.js';
 
 const QuestionArtistScreen = (props) => {
   const {question, onAnswer, renderPlayer} = props;
@@ -44,17 +45,7 @@ const QuestionArtistScreen = (props) => {
 };
 
 QuestionArtistScreen.propTypes = {
-  question: PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    artist: PropTypes.string.isRequired,
-    trackSrc: PropTypes.string.isRequired,
-    answers: PropTypes.arrayOf(
-        PropTypes.shape({
-          artist: PropTypes.string.isRequired,
-          pictureSrc: PropTypes.string.isRequired,
-        })
-    )
-  }).isRequired,
+  question: artistProp,
   onAnswer: PropTypes.func.isRequired,
   renderPlayer: PropTypes.func.isRequired,
 };

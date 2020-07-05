@@ -1,6 +1,6 @@
-const GameTypes = {
+const GameType = {
   ARTIST: `artist`,
   GENRE: `genre`,
 };
 
-export {GameTypes};
+export {GameType};

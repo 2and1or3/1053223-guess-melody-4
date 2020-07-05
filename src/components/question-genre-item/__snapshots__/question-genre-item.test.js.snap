@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render QuestionGenreItem component 1`] = `
+<div
+  className="track"
+>
+  <div
+    className="game__answer"
+  >
+    <input
+      checked={true}
+      className="game__input visually-hidden"
+      id="rock1"
+      name="answer"
+      onChange={[Function]}
+      type="checkbox"
+      value="rock"
+    />
+    <label
+      className="game__check"
+      htmlFor="rock1"
+    >
+      Отметить
+    </label>
+  </div>
+</div>
+`;

@@ -4,14 +4,12 @@ exports[`Render AudioPlayer component 1`] = `
 Array [
   <button
     className="track__button track__button--pause"
-    disabled={true}
+    disabled={false}
     onClick={[Function]}
     type="button"
   />,
   <div
     className="track__status"
-  >
-    <audio />
-  </div>,
+  />,
 ]
 `;

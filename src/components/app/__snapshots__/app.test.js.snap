@@ -45,7 +45,7 @@ exports[`Render App component Render QuestionArtistScreen component 1`] = `
       className="game__mistakes"
     >
       <div
-        className="wrong"
+        className=""
       />
       <div
         className=""
@@ -204,7 +204,7 @@ exports[`Render App component Render QuestionGenreScreen component 1`] = `
       className="game__mistakes"
     >
       <div
-        className="wrong"
+        className=""
       />
       <div
         className=""
