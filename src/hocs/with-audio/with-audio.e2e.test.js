@@ -7,17 +7,17 @@ import withAudio from "./with-audio.js";
 configure({adapter: new Adapter()});
 
 const Player = (props) => {
-  const {onPlayButtonClick, children} = props;
+  const {onClick, children} = props;
   return (
     <div>
-      <button onClick={onPlayButtonClick} />
+      <button onClick={onClick} />
       {children}
     </div>
   );
 };
 
 Player.propTypes = {
-  onPlayButtonClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
@@ -26,9 +26,12 @@ Player.propTypes = {
 
 it(`Checks that HOC's callback turn on audio (play)`, () => {
   const PlayerWrapped = withAudio(Player);
+
   const wrapper = mount(<PlayerWrapped
     isPlaying={false}
-    onPlayButtonClick={() => {}}
+    onPlayButtonClick={() => {
+      wrapper.setProps({isPlaying: true});
+    }}
     src=""
   />);
 
@@ -49,7 +52,9 @@ it(`Checks that HOC's callback turn off audio (pause)`, () => {
   const PlayerWrapped = withAudio(Player);
   const wrapper = mount(<PlayerWrapped
     isPlaying={true}
-    onPlayButtonClick={() => {}}
+    onPlayButtonClick={() => {
+      wrapper.setProps({isPlaying: false});
+    }}
     src=""
   />);
 

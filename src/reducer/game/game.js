@@ -1,11 +1,10 @@
-import {questions} from './mocks/questions.js';
-import {GameType} from './consts.js';
+import {GameType} from '../../consts.js';
+import {extend} from '../../utils.js';
 
 
 const initialState = {
   mistakes: 0,
   step: -1,
-  questions,
   maxMistakes: 3,
 };
 
@@ -13,10 +12,6 @@ const ActionType = {
   INCREMENT_STEP: `INCREMENT_STEP`,
   INCREMENT_MISTAKES: `INCREMENT_MISTAKES`,
   REPEAT_GAME: `REPEAT_GAME`,
-};
-
-const extend = (a, b) => {
-  return Object.assign({}, a, b);
 };
 
 const isCorrectGenre = (question, userAnswers) => {
@@ -73,11 +68,9 @@ const reducer = (state = initialState, action) => {
     case ActionType.REPEAT_GAME:
       return extend(initialState, {step: 0});
 
-
     default:
       return state;
   }
 };
 
-
-export {ActionType, reducer, ActionCreator};
+export {reducer, ActionCreator, ActionType};

@@ -13,7 +13,9 @@ import WinScreen from '../win-screen/win-screen.jsx';
 
 import withActivePlayer from '../../hocs/with-active-player/with-active-player.js';
 import withUserAnswer from '../../hocs/with-user-answer/with-user-answer.js';
-import {ActionCreator} from '../../reducer.js';
+import {ActionCreator} from '../../reducer/game/game.js';
+import {getQuestions} from '../../reducer/data/selectors.js';
+import {getMistakes, getMaxMistakes, getStep} from '../../reducer/game/selectors.js';
 
 import {GameType} from '../../consts.js';
 import {genreProp, artistProp} from '../../props.js';
@@ -110,10 +112,10 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  mistakes: state.mistakes,
-  maxMistakes: state.maxMistakes,
-  questions: state.questions,
-  step: state.step,
+  mistakes: getMistakes(state),
+  maxMistakes: getMaxMistakes(state),
+  questions: getQuestions(state),
+  step: getStep(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,48 +1,4 @@
-import {reducer, ActionType, ActionCreator} from './reducer.js';
-
-const questions = [
-  {
-    type: `genre`,
-    genre: `rock`,
-    answers: [
-      {
-        genre: `rock`,
-        src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
-      },
-      {
-        genre: `jazz`,
-        src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
-      },
-      {
-        genre: `pop`,
-        src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
-      },
-      {
-        genre: `alternative`,
-        src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
-      }
-    ]
-  },
-  {
-    type: `artist`,
-    artist: `true-person`,
-    trackSrc: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
-    answers: [
-      {
-        artist: `true-person`,
-        pictureSrc: `http://placehold.it/134x134`,
-      },
-      {
-        artist: `person-2`,
-        pictureSrc: `http://placehold.it/134x134`,
-      },
-      {
-        artist: `person-3`,
-        pictureSrc: `http://placehold.it/134x134`,
-      },
-    ]
-  },
-];
+import {reducer, ActionType, ActionCreator} from './game.js';
 
 
 describe(`Reducer works correctly`, () => {
@@ -53,7 +9,6 @@ describe(`Reducer works correctly`, () => {
       mistakes: 0,
       step: -1,
       maxMistakes: 3,
-      questions,
     });
   });
 
@@ -62,7 +17,6 @@ describe(`Reducer works correctly`, () => {
       mistakes: 0,
       step: -1,
       maxMistakes: 3,
-      questions,
     };
 
     const action = {
@@ -74,7 +28,6 @@ describe(`Reducer works correctly`, () => {
       mistakes: 0,
       step: 0,
       maxMistakes: 3,
-      questions,
     };
 
     expect(reducer(stateBefore, action)).toEqual(stateAfter);
@@ -85,7 +38,6 @@ describe(`Reducer works correctly`, () => {
       mistakes: 0,
       step: -1,
       maxMistakes: 3,
-      questions,
     };
     const action = {
       type: ActionType.INCREMENT_MISTAKES,
@@ -95,7 +47,6 @@ describe(`Reducer works correctly`, () => {
       mistakes: 1,
       step: -1,
       maxMistakes: 3,
-      questions,
     };
 
     expect(reducer(stateBefore, action)).toEqual(stateAfter);
@@ -106,17 +57,15 @@ describe(`Reducer works correctly`, () => {
       mistakes: 0,
       step: 2,
       maxMistakes: 3,
-      questions,
     };
     const action = {
       type: ActionType.REPEAT_GAME,
-      payload: 1,
+      payload: null,
     };
     const stateAfter = {
       mistakes: 0,
       step: 0,
       maxMistakes: 3,
-      questions,
     };
 
     expect(reducer(stateBefore, action)).toEqual(stateAfter);
