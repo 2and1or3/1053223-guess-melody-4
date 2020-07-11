@@ -57,6 +57,8 @@ const commonProps = {
   onPlayClick: () => {},
   onAnswer: () => {},
   onRepeat: () => {},
+  onAuthSubmit: () => {},
+  userStatus: `NO_AUTH`,
 };
 
 describe(`Render App component`, () => {

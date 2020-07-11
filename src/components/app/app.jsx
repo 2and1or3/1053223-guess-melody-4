@@ -10,14 +10,17 @@ import QuestionArtistScreen from '../question-artist-screen/question-artist-scre
 import GameScreen from '../game-screen/game-screen.jsx';
 import GameOverScreen from '../game-over-screen/game-over-screen.jsx';
 import WinScreen from '../win-screen/win-screen.jsx';
+import AuthorizationScreen from '../authorization-screen/authorization-screen.jsx';
 
 import withActivePlayer from '../../hocs/with-active-player/with-active-player.js';
 import withUserAnswer from '../../hocs/with-user-answer/with-user-answer.js';
 import {ActionCreator} from '../../reducer/game/game.js';
+import {Operation as UserOperation} from '../../reducer/user/user.js';
 import {getQuestions} from '../../reducer/data/selectors.js';
 import {getMistakes, getMaxMistakes, getStep} from '../../reducer/game/selectors.js';
+import {getUserStatus} from '../../reducer/user/selectors.js';
 
-import {GameType} from '../../consts.js';
+import {GameType, AuthorizationStatus} from '../../consts.js';
 import {genreProp, artistProp} from '../../props.js';
 
 const QuestionGenreScreenWrapped = withActivePlayer(withUserAnswer(QuestionGenreScreen));
@@ -26,7 +29,7 @@ const QuestionArtistScreenWrapped = withActivePlayer(QuestionArtistScreen);
 
 class App extends PureComponent {
   _renderGameScreen() {
-    const {questions, maxMistakes, step, onPlayClick, onAnswer, mistakes, onRepeat} = this.props;
+    const {questions, maxMistakes, step, onPlayClick, onAnswer, mistakes, onRepeat, userStatus, onAuthSubmit} = this.props;
     const question = questions[step];
 
     if (step === -1) {
@@ -45,9 +48,13 @@ class App extends PureComponent {
     }
 
     if (step >= questions.length) {
-      return (
-        <WinScreen onRepeat = {onRepeat} quantity = {questions.length} mistakes = {mistakes}/>
-      );
+      if (userStatus === AuthorizationStatus.NO_AUTH) {
+        return (<AuthorizationScreen onAuthSubmit = {onAuthSubmit} onRepeat = {onRepeat}/>);
+      } else {
+        return (
+          <WinScreen onRepeat = {onRepeat} quantity = {questions.length} mistakes = {mistakes}/>
+        );
+      }
     }
 
     if (question) {
@@ -109,6 +116,8 @@ App.propTypes = {
   onPlayClick: PropTypes.func.isRequired,
   onAnswer: PropTypes.func.isRequired,
   onRepeat: PropTypes.func.isRequired,
+  userStatus: PropTypes.string.isRequired,
+  onAuthSubmit: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -116,6 +125,7 @@ const mapStateToProps = (state) => ({
   maxMistakes: getMaxMistakes(state),
   questions: getQuestions(state),
   step: getStep(state),
+  userStatus: getUserStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -128,6 +138,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onRepeat: () => {
     dispatch(ActionCreator.repeatGame());
+  },
+  onAuthSubmit: (login, password) => {
+    dispatch(UserOperation.sendAuthRequest(login, password));
   }
 });
 

@@ -11,13 +11,17 @@ import createApi from './api.js';
 
 import {reducer} from './reducer/reducer.js';
 import {Operation as DataOperation} from './reducer/data/data.js';
+import {Operation as UserOperation, ActionCreator} from './reducer/user/user.js';
+import {AuthorizationStatus} from './consts.js';
 
 
 const rootContainer = document.querySelector(`#root`);
 
-const needDispatchFunc = () => {};
+const onUnauthorized = () => {
+  store.dispatch(ActionCreator.updateAuthStatus(AuthorizationStatus.NO_AUTH));
+};
 
-const api = createApi(needDispatchFunc);
+const api = createApi(onUnauthorized);
 
 const store = createStore(
     reducer,
@@ -25,6 +29,7 @@ const store = createStore(
 );
 
 store.dispatch(DataOperation.loadQuestions());
+store.dispatch(UserOperation.checkAuthStatus());
 
 
 ReactDOM.render(

@@ -1,8 +1,6 @@
 import {extend, adapterToLocalQuestions} from '../../utils.js';
+import {URL} from '../../consts.js';
 
-const URL = {
-  QUESTIONS: `/questions`,
-};
 
 const initialState = {
   questions: [],
@@ -22,7 +20,7 @@ const ActionCreator = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.LOAD_QUESTIONS:
-      return extend(state, {questions: action.payload});
+      return extend(state, {questions: action.payload.slice(0, 2)});
 
     default:
       return state;
