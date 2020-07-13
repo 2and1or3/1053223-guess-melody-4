@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {Router, Route, Switch} from "react-router-dom";
 import {PureComponent} from "react";
 import {connect} from "react-redux";
 
@@ -19,8 +19,9 @@ import {Operation as UserOperation} from '../../reducer/user/user.js';
 import {getQuestions} from '../../reducer/data/selectors.js';
 import {getMistakes, getMaxMistakes, getStep} from '../../reducer/game/selectors.js';
 import {getUserStatus} from '../../reducer/user/selectors.js';
+import history from '../../history.js';
 
-import {GameType, AuthorizationStatus} from '../../consts.js';
+import {GameType, AuthorizationStatus, AppRoute} from '../../consts.js';
 import {genreProp, artistProp} from '../../props.js';
 
 const QuestionGenreScreenWrapped = withActivePlayer(withUserAnswer(QuestionGenreScreen));
@@ -42,19 +43,17 @@ class App extends PureComponent {
     }
 
     if (mistakes >= maxMistakes) {
-      return (
-        <GameOverScreen onRepeat = {onRepeat}/>
-      );
+      return history.push(AppRoute.LOSE);
     }
 
     if (step >= questions.length) {
-      if (userStatus === AuthorizationStatus.NO_AUTH) {
-        return (<AuthorizationScreen onAuthSubmit = {onAuthSubmit} onRepeat = {onRepeat}/>);
-      } else {
-        return (
-          <WinScreen onRepeat = {onRepeat} quantity = {questions.length} mistakes = {mistakes}/>
-        );
+      if (userStatus === AuthorizationStatus.AUTH) {
+        return history.push(AppRoute.RESULT);
+      } else if (userStatus === AuthorizationStatus.NO_AUTH) {
+        return history.push(AppRoute.LOGIN);
       }
+
+      return null;
     }
 
     if (question) {
@@ -84,26 +83,25 @@ class App extends PureComponent {
   }
 
   render() {
-    const {questions} = this.props;
+    const {questions, onAuthSubmit, onRepeat, mistakes} = this.props;
 
     return (
-      <BrowserRouter>
+      <Router history = {history}>
         <Switch>
-          <Route exact path="/">
+          <Route exact path = {AppRoute.ROOT}>
             {this._renderGameScreen()}
           </Route>
-          <Route exact path="/artist">
-            <GameScreen gameType = {GameType.ARTIST} maxMistakes = {3} mistakes = {0}>
-              <QuestionArtistScreenWrapped question = {questions[1]} onAnswer = {() => {}}/>
-            </GameScreen>
+          <Route exact path = {AppRoute.LOGIN}>
+            <AuthorizationScreen onAuthSubmit = {onAuthSubmit} onRepeat = {onRepeat}/>
           </Route>
-          <Route exact path="/genre">
-            <GameScreen gameType = {GameType.GENRE} maxMistakes = {3} mistakes = {0}>
-              <QuestionGenreScreenWrapped question = {questions[0]} onAnswer = {() => {}}/>
-            </GameScreen>
+          <Route exact path = {AppRoute.LOSE}>
+            <GameOverScreen onRepeat = {onRepeat}/>
+          </Route>
+          <Route exact path = {AppRoute.RESULT}>
+            <WinScreen onRepeat = {onRepeat} quantity = {questions.length} mistakes = {mistakes}/>
           </Route>
         </Switch>
-      </BrowserRouter>
+      </Router>
     );
   }
 }
