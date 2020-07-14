@@ -30,7 +30,7 @@ const QuestionArtistScreenWrapped = withActivePlayer(QuestionArtistScreen);
 
 class App extends PureComponent {
   _renderGameScreen() {
-    const {questions, maxMistakes, step, onPlayClick, onAnswer, mistakes, onGoToWelcome} = this.props;
+    const {questions, maxMistakes, step, onPlayClick, onAnswer, mistakes, onGoToWelcome, userStatus} = this.props;
     const question = questions[step];
 
 
@@ -41,6 +41,19 @@ class App extends PureComponent {
           onPlayClick = {onPlayClick}
         />
       );
+    }
+
+    if (mistakes >= maxMistakes) {
+      console.log(`redirect`);
+      return <Redirect to={AppRoute.LOSE}/>;
+    }
+
+    if (step >= questions.length) {
+      if (userStatus === AuthorizationStatus.AUTH) {
+        return <Redirect to={AppRoute.RESULT}/>;
+      } else if (userStatus === AuthorizationStatus.NO_AUTH) {
+        return <Redirect to={AppRoute.LOGIN}/>;
+      }
     }
 
     if (question) {
@@ -69,23 +82,6 @@ class App extends PureComponent {
     return null;
   }
 
-  componentDidUpdate() {
-    const {step, questions, userStatus, mistakes, maxMistakes} = this.props;
-    if (mistakes >= maxMistakes) {
-      console.log(`redirect`);
-      return <Redirect to={AppRoute.LOSE}/>;
-    }
-
-    if (step >= questions.length) {
-      if (userStatus === AuthorizationStatus.AUTH) {
-        return history.push(AppRoute.RESULT);
-      } else if (userStatus === AuthorizationStatus.NO_AUTH) {
-        return history.push(AppRoute.LOGIN);
-      }
-    }
-
-    return null;
-  }
 
   render() {
     const {questions, onAuthSubmit, onRepeat, mistakes} = this.props;
