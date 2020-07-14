@@ -30,7 +30,7 @@ const QuestionArtistScreenWrapped = withActivePlayer(QuestionArtistScreen);
 
 class App extends PureComponent {
   _renderGameScreen() {
-    const {questions, maxMistakes, step, onPlayClick, onAnswer, mistakes, onRepeat, userStatus, onAuthSubmit} = this.props;
+    const {questions, maxMistakes, step, onPlayClick, onAnswer, mistakes, onGoToWelcome} = this.props;
     const question = questions[step];
 
     if (step === -1) {
@@ -42,25 +42,11 @@ class App extends PureComponent {
       );
     }
 
-    if (mistakes >= maxMistakes) {
-      return history.push(AppRoute.LOSE);
-    }
-
-    if (step >= questions.length) {
-      if (userStatus === AuthorizationStatus.AUTH) {
-        return history.push(AppRoute.RESULT);
-      } else if (userStatus === AuthorizationStatus.NO_AUTH) {
-        return history.push(AppRoute.LOGIN);
-      }
-
-      return null;
-    }
-
     if (question) {
       switch (question.type) {
         case GameType.ARTIST:
           return (
-            <GameScreen gameType = {GameType.ARTIST} maxMistakes = {maxMistakes} mistakes = {mistakes}>
+            <GameScreen gameType = {GameType.ARTIST} maxMistakes = {maxMistakes} mistakes = {mistakes} onGoToWelcome = {onGoToWelcome}>
               <QuestionArtistScreenWrapped
                 question = {question}
                 onAnswer = {onAnswer}
@@ -69,7 +55,7 @@ class App extends PureComponent {
           );
         case GameType.GENRE:
           return (
-            <GameScreen gameType = {GameType.GENRE} maxMistakes = {maxMistakes} mistakes = {mistakes}>
+            <GameScreen gameType = {GameType.GENRE} maxMistakes = {maxMistakes} mistakes = {mistakes} onGoToWelcome = {onGoToWelcome}>
               <QuestionGenreScreenWrapped
                 question = {question}
                 onAnswer = {onAnswer}
@@ -82,22 +68,40 @@ class App extends PureComponent {
     return null;
   }
 
+  componentDidUpdate() {
+    const {step, questions, userStatus, mistakes, maxMistakes} = this.props;
+    if (mistakes >= maxMistakes) {
+      console.log(`redirect`);
+      return history.push(AppRoute.LOSE);
+    }
+
+    if (step >= questions.length) {
+      if (userStatus === AuthorizationStatus.AUTH) {
+        return history.push(AppRoute.RESULT);
+      } else if (userStatus === AuthorizationStatus.NO_AUTH) {
+        return history.push(AppRoute.LOGIN);
+      }
+    }
+
+    return null;
+  }
+
   render() {
     const {questions, onAuthSubmit, onRepeat, mistakes} = this.props;
-
+    console.log(`render`);
     return (
-      <Router history = {history}>
+      <Router history={history}>
         <Switch>
-          <Route exact path = {AppRoute.ROOT}>
+          <Route exact path={AppRoute.ROOT}>
             {this._renderGameScreen()}
           </Route>
-          <Route exact path = {AppRoute.LOGIN}>
+          <Route exact path={AppRoute.LOGIN}>
             <AuthorizationScreen onAuthSubmit = {onAuthSubmit} onRepeat = {onRepeat}/>
           </Route>
-          <Route exact path = {AppRoute.LOSE}>
+          <Route path={AppRoute.LOSE} exact>
             <GameOverScreen onRepeat = {onRepeat}/>
           </Route>
-          <Route exact path = {AppRoute.RESULT}>
+          <Route exact path={AppRoute.RESULT}>
             <WinScreen onRepeat = {onRepeat} quantity = {questions.length} mistakes = {mistakes}/>
           </Route>
         </Switch>
@@ -116,6 +120,7 @@ App.propTypes = {
   onRepeat: PropTypes.func.isRequired,
   userStatus: PropTypes.string.isRequired,
   onAuthSubmit: PropTypes.func.isRequired,
+  onGoToWelcome: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -139,6 +144,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onAuthSubmit: (login, password) => {
     dispatch(UserOperation.sendAuthRequest(login, password));
+  },
+  onGoToWelcome: () => {
+    dispatch(ActionCreator.toWelcome());
   }
 });
 

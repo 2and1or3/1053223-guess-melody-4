@@ -12,6 +12,7 @@ const ActionType = {
   INCREMENT_STEP: `INCREMENT_STEP`,
   INCREMENT_MISTAKES: `INCREMENT_MISTAKES`,
   REPEAT_GAME: `REPEAT_GAME`,
+  GO_TO_WELCOME: `GO_TO_WELCOME`,
 };
 
 const isCorrectGenre = (question, userAnswers) => {
@@ -50,6 +51,11 @@ const ActionCreator = {
     type: ActionType.REPEAT_GAME,
     payload: null,
   }),
+
+  toWelcome: () => ({
+    type: ActionType.GO_TO_WELCOME,
+    payload: null,
+  })
 };
 
 const reducer = (state = initialState, action) => {
@@ -67,6 +73,9 @@ const reducer = (state = initialState, action) => {
 
     case ActionType.REPEAT_GAME:
       return extend(initialState, {step: 0});
+
+    case ActionType.GO_TO_WELCOME:
+      return extend(initialState, {step: -1});
 
     default:
       return state;
