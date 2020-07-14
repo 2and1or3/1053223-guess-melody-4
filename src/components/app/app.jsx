@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Router, Route, Switch} from "react-router-dom";
+import {Router, Route, Switch, Redirect} from "react-router-dom";
 import {PureComponent} from "react";
 import {connect} from "react-redux";
 
@@ -32,6 +32,7 @@ class App extends PureComponent {
   _renderGameScreen() {
     const {questions, maxMistakes, step, onPlayClick, onAnswer, mistakes, onGoToWelcome} = this.props;
     const question = questions[step];
+
 
     if (step === -1) {
       return (
@@ -72,7 +73,7 @@ class App extends PureComponent {
     const {step, questions, userStatus, mistakes, maxMistakes} = this.props;
     if (mistakes >= maxMistakes) {
       console.log(`redirect`);
-      return history.push(AppRoute.LOSE);
+      return <Redirect to={AppRoute.LOSE}/>;
     }
 
     if (step >= questions.length) {
