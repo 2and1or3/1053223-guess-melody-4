@@ -59,6 +59,7 @@ const commonProps = {
   onRepeat: () => {},
   onAuthSubmit: () => {},
   userStatus: `NO_AUTH`,
+  onGoToWelcome: () => {},
 };
 
 describe(`Render App component`, () => {

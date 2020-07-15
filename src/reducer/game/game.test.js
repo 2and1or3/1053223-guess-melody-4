@@ -70,6 +70,25 @@ describe(`Reducer works correctly`, () => {
 
     expect(reducer(stateBefore, action)).toEqual(stateAfter);
   });
+
+  it(`Reducer should set step in -1`, () => {
+    const stateBefore = {
+      mistakes: 0,
+      step: 2,
+      maxMistakes: 3,
+    };
+    const action = {
+      type: ActionType.GO_TO_WELCOME,
+      payload: null,
+    };
+    const stateAfter = {
+      mistakes: 0,
+      step: -1,
+      maxMistakes: 3,
+    };
+
+    expect(reducer(stateBefore, action)).toEqual(stateAfter);
+  });
 });
 
 describe(`Action creators work correctly`, () => {
@@ -212,5 +231,14 @@ describe(`Action creators work correctly`, () => {
     };
 
     expect(ActionCreator.repeatGame()).toEqual(correctAction);
+  });
+
+  it(`Action creator should return correct action for toWelcome`, () => {
+    const correctAction = {
+      type: ActionType.GO_TO_WELCOME,
+      payload: null,
+    };
+
+    expect(ActionCreator.toWelcome()).toEqual(correctAction);
   });
 });

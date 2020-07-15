@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Router, Route, Switch, Redirect} from "react-router-dom";
+import {BrowserRouter, Route, Switch, Redirect} from "react-router-dom";
 import {PureComponent} from "react";
 import {connect} from "react-redux";
 
@@ -11,6 +11,7 @@ import GameScreen from '../game-screen/game-screen.jsx';
 import GameOverScreen from '../game-over-screen/game-over-screen.jsx';
 import WinScreen from '../win-screen/win-screen.jsx';
 import AuthorizationScreen from '../authorization-screen/authorization-screen.jsx';
+import PrivateRoute from '../private-route/private-route.jsx';
 
 import withActivePlayer from '../../hocs/with-active-player/with-active-player.js';
 import withUserAnswer from '../../hocs/with-user-answer/with-user-answer.js';
@@ -19,7 +20,6 @@ import {Operation as UserOperation} from '../../reducer/user/user.js';
 import {getQuestions} from '../../reducer/data/selectors.js';
 import {getMistakes, getMaxMistakes, getStep} from '../../reducer/game/selectors.js';
 import {getUserStatus} from '../../reducer/user/selectors.js';
-import history from '../../history.js';
 
 import {GameType, AuthorizationStatus, AppRoute} from '../../consts.js';
 import {genreProp, artistProp} from '../../props.js';
@@ -44,7 +44,6 @@ class App extends PureComponent {
     }
 
     if (mistakes >= maxMistakes) {
-      console.log(`redirect`);
       return <Redirect to={AppRoute.LOSE}/>;
     }
 
@@ -84,25 +83,25 @@ class App extends PureComponent {
 
 
   render() {
-    const {questions, onAuthSubmit, onRepeat, mistakes} = this.props;
-    console.log(`render`);
+    const {questions, onAuthSubmit, onRepeat, mistakes, userStatus} = this.props;
+
     return (
-      <Router history={history}>
+      <BrowserRouter>
         <Switch>
           <Route exact path={AppRoute.ROOT}>
             {this._renderGameScreen()}
           </Route>
           <Route exact path={AppRoute.LOGIN}>
-            <AuthorizationScreen onAuthSubmit = {onAuthSubmit} onRepeat = {onRepeat}/>
+            <AuthorizationScreen onAuthSubmit = {onAuthSubmit} onRepeat = {onRepeat} userStatus = {userStatus}/>
           </Route>
           <Route path={AppRoute.LOSE} exact>
             <GameOverScreen onRepeat = {onRepeat}/>
           </Route>
-          <Route exact path={AppRoute.RESULT}>
-            <WinScreen onRepeat = {onRepeat} quantity = {questions.length} mistakes = {mistakes}/>
-          </Route>
+          <PrivateRoute exact path={AppRoute.RESULT} render={() => <WinScreen onRepeat = {onRepeat} quantity = {questions.length} mistakes = {mistakes}/>}>
+
+          </PrivateRoute>
         </Switch>
-      </Router>
+      </BrowserRouter>
     );
   }
 }

@@ -24,12 +24,12 @@ exports[`Render WinScreen component 1`] = `
   >
     Вы ответили правильно на 2 вопросов и совершили 2 ошибки
   </p>
-  <button
+  <a
     className="replay"
+    href="/"
     onClick={[Function]}
-    type="button"
   >
     Сыграть ещё раз
-  </button>
+  </a>
 </section>
 `;

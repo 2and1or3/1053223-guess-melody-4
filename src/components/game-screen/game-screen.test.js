@@ -1,5 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import {BrowserRouter} from "react-router-dom";
 
 import GameScreen from './game-screen.jsx';
 import {GameType} from '../../consts.js';
@@ -7,9 +8,11 @@ import {GameType} from '../../consts.js';
 it(`Render GameScreen component with artist type`, () => {
   const tree = renderer
     .create(
-        <GameScreen gameType = {GameType.ARTIST} maxMistakes = {3} mistakes = {0}>
-          {[]}
-        </GameScreen>
+        <BrowserRouter>
+          <GameScreen gameType = {GameType.ARTIST} maxMistakes = {3} mistakes = {0} onGoToWelcome = {() => {}}>
+            {[]}
+          </GameScreen>
+        </BrowserRouter>
     )
     .toJSON();
 
