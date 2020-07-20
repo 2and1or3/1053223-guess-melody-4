@@ -41,4 +41,8 @@ const adapterToLocalQuestions = (questions) => {
   return localQuestions;
 };
 
-export {mockAudioNode, adapterToLocalQuestions, extend};
+const noop = () => {
+
+};
+
+export {mockAudioNode, adapterToLocalQuestions, extend, noop};

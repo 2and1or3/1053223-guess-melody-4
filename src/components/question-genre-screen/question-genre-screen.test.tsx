@@ -1,9 +1,12 @@
-import React from "react";
-import renderer from "react-test-renderer";
-import QuestionGenreScreen from './question-genre-screen.jsx';
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 
-const question = {
-  type: `genre`,
+import QuestionGenreScreen from './question-genre-screen';
+import {GenreQuestion, GameType} from '../../types';
+import {noop} from '../../utils';
+
+const question: GenreQuestion = {
+  type: GameType.GENRE,
   genre: `rock`,
   answers: [
     {
@@ -29,10 +32,10 @@ it(`Render QuestionGenreScreen component`, () => {
   const tree = renderer
     .create(<QuestionGenreScreen
       question = {question}
-      renderPlayer = {() => {}}
+      renderPlayer = {noop}
       userAnswers = {new Array(question.answers.length).fill(false)}
-      onSubmit = {() => {}}
-      onChange = {() => {}}
+      onSubmit = {noop}
+      onChange = {noop}
     />)
     .toJSON();
 

@@ -1,7 +1,8 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 
-import QuestionGenreItem from './question-genre-item.jsx';
+import QuestionGenreItem from './question-genre-item';
+import {noop} from '../../utils';
 
 it(`Render QuestionGenreItem component`, () => {
   const tree = renderer
@@ -10,9 +11,9 @@ it(`Render QuestionGenreItem component`, () => {
           genreAnswer = {`rock`}
           src = {`path`}
           id = {1}
-          renderPlayer = {() => {}}
+          renderPlayer = {noop}
           userAnswer = {true}
-          onChange = {() => {}}
+          onChange = {noop}
         />)
     .toJSON();
 

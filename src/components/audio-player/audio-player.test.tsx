@@ -1,8 +1,8 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 
-import AudioPlayer from './audio-player.jsx';
-import {mockAudioNode} from '../../utils.js';
+import AudioPlayer from './audio-player';
+import {mockAudioNode, noop} from '../../utils';
 
 it(`Render AudioPlayer component`, () => {
   const tree = renderer
@@ -10,7 +10,7 @@ it(`Render AudioPlayer component`, () => {
         <AudioPlayer
           isPlaying = {true}
           isLoading = {false}
-          onClick = {() => {}}
+          onClick = {noop}
         >{[]}</AudioPlayer>, {
           createNodeMock: mockAudioNode
         })

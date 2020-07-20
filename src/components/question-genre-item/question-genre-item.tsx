@@ -11,7 +11,7 @@ interface Props {
 
 class QuestionGenreItem extends React.PureComponent<Props> {
   render() {
-    const { genreAnswer, src, id, renderPlayer, userAnswer, onChange } = this.props;
+    const {genreAnswer, src, id, renderPlayer, userAnswer, onChange} = this.props;
 
     return (
       <div className="track" key={genreAnswer + id}>

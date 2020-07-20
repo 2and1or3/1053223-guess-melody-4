@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Subtract } from "utility-types";
+import {Subtract} from "utility-types";
 
 import AudioPlayer from '../../components/audio-player/audio-player';
 import withAudio from '../with-audio/with-audio';
@@ -30,7 +30,7 @@ const withActivePlayer = (Component) => {
     }
 
     render() {
-      const { activePlayer } = this.state;
+      const {activePlayer} = this.state;
 
       return (
         <Component
@@ -40,7 +40,7 @@ const withActivePlayer = (Component) => {
               <AudioPlayerWrapped
                 isPlaying={id === activePlayer}
                 src={src}
-                onPlayButtonClick={() => this.setState({ activePlayer: activePlayer === id ? -1 : id })}
+                onPlayButtonClick={() => this.setState({activePlayer: activePlayer === id ? -1 : id})}
               />
             );
           }}

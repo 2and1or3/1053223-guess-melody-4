@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 import Mistakes from '../mistakes/mistakes';
-import { AppRoute } from '../../consts.js';
+import {AppRoute} from '../../consts.js';
 
 interface Props {
   maxMistakes: number;
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const GameScreen: React.FunctionComponent<Props> = (props: Props) => {
-  const { gameType, children, maxMistakes, mistakes, onGoToWelcome } = props;
+  const {gameType, children, maxMistakes, mistakes, onGoToWelcome} = props;
 
   return (
     <section className={`game game--${gameType}`}>
@@ -25,7 +25,7 @@ const GameScreen: React.FunctionComponent<Props> = (props: Props) => {
 
 
         <svg xmlns="http://www.w3.org/2000/svg" className="timer" viewBox="0 0 780 780">
-          <circle className="timer__line" cx="390" cy="390" r="370" style={{ filter: `url(#blur)`, transform: `rotate(-90deg) scaleY(-1)`, transformOrigin: `center` }} />
+          <circle className="timer__line" cx="390" cy="390" r="370" style={{filter: `url(#blur)`, transform: `rotate(-90deg) scaleY(-1)`, transformOrigin: `center`}} />
         </svg>
 
         <Mistakes maxMistakes={maxMistakes} mistakes={mistakes} />

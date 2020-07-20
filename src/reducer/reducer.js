@@ -1,10 +1,10 @@
 import {combineReducers} from "redux";
 
-import NameSpace from './namespace.js';
+import NameSpace from './namespace';
 
-import {reducer as dataReducer} from './data/data.js';
-import {reducer as gameReducer} from './game/game.js';
-import {reducer as userReducer} from './user/user.js';
+import {reducer as dataReducer} from './data/data';
+import {reducer as gameReducer} from './game/game';
+import {reducer as userReducer} from './user/user';
 
 
 const reducer = combineReducers({

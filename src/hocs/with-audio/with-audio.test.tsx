@@ -1,18 +1,17 @@
-import React from "react";
-import renderer from "react-test-renderer";
-import PropTypes from "prop-types";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 
-import withAudio from './with-audio.js';
-import {mockAudioNode} from '../../utils.js';
+import withAudio from './with-audio';
+import {mockAudioNode, noop} from '../../utils';
 
-const MockComponent = (props) => {
+interface MockProps {
+  children: React.ReactNode;
+}
+
+const MockComponent: React.FunctionComponent<MockProps> = (props: MockProps) => {
   const {children} = props;
 
   return <div>{children}</div>;
-};
-
-MockComponent.propTypes = {
-  children: PropTypes.node.isRequired,
 };
 
 const MockComponentWrapped = withAudio(MockComponent);
@@ -21,7 +20,7 @@ it(`Render withAudio component`, () => {
   const tree = renderer
     .create(<MockComponentWrapped
       isPlaying = {false}
-      onPlayButtonClick = {() => {}}
+      onPlayButtonClick = {noop}
       src = {`path`}
     />, {
       createNodeMock: mockAudioNode

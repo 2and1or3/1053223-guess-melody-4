@@ -10,7 +10,7 @@ interface Props {
 class AudioPlayer extends React.PureComponent<Props> {
 
   render() {
-    const { isPlaying, isLoading, onClick, children } = this.props;
+    const {isPlaying, isLoading, onClick, children} = this.props;
 
     return (
       <React.Fragment>

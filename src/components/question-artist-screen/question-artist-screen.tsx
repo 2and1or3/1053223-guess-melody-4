@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { ArtistQuestion } from '../../types.ts';
+import {ArtistQuestion} from '../../types';
 
 interface Props {
   question: ArtistQuestion;
@@ -9,8 +9,8 @@ interface Props {
 }
 
 const QuestionArtistScreen: React.FunctionComponent<Props> = (props: Props) => {
-  const { question, onAnswer, renderPlayer } = props;
-  const { answers, trackSrc: src } = question;
+  const {question, onAnswer, renderPlayer} = props;
+  const {answers, trackSrc: src} = question;
 
   return (
     <section className="game__screen">
@@ -23,7 +23,7 @@ const QuestionArtistScreen: React.FunctionComponent<Props> = (props: Props) => {
 
       <form className="game__artist">
         {answers.map((answer, i) => {
-          const { artist, pictureSrc: pic } = answer;
+          const {artist, pictureSrc: pic} = answer;
 
           return (
             <div className="artist" key={artist + i}>

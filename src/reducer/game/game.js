@@ -1,5 +1,5 @@
-import {GameType} from '../../types.ts';
-import {extend} from '../../utils.js';
+import {GameType} from '../../types';
+import {extend} from '../../utils';
 
 
 const initialState = {

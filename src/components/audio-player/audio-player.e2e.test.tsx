@@ -1,9 +1,9 @@
-import React from "react";
-import Enzyme from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import * as React from "react";
+import * as Enzyme from "enzyme";
+import * as Adapter from "enzyme-adapter-react-16";
 import {shallow} from "enzyme";
 
-import AudioPlayer from './audio-player.jsx';
+import AudioPlayer from './audio-player';
 
 Enzyme.configure({adapter: new Adapter()});
 
@@ -12,9 +12,9 @@ describe(`AudioPlayer component`, () => {
     const onClick = jest.fn();
 
     const wrapper = shallow(<AudioPlayer
-      isPlaying = {false}
-      isLoading = {false}
-      onClick = {onClick}
+      isPlaying={false}
+      isLoading={false}
+      onClick={onClick}
     >{[]}</AudioPlayer>);
 
     const playButton = wrapper.find(`.track__button`);

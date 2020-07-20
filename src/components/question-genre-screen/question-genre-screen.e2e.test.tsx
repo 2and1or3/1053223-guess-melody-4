@@ -1,14 +1,16 @@
-import React from "react";
-import Enzyme from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import * as React from "react";
+import * as Enzyme from "enzyme";
+import * as Adapter from "enzyme-adapter-react-16";
 import {shallow, mount} from "enzyme";
 
-import QuestionGenreScreen from './question-genre-screen.jsx';
+import QuestionGenreScreen from './question-genre-screen';
+import {GenreQuestion, GameType} from '../../types';
+import {noop} from '../../utils';
 
 Enzyme.configure({adapter: new Adapter()});
 
-const question = {
-  type: `genre`,
+const question: GenreQuestion = {
+  type: GameType.GENRE,
   genre: `rock`,
   answers: [
     {
@@ -31,7 +33,7 @@ const question = {
 };
 
 const mockSubmitEvent = {
-  preventDefault() {}
+  preventDefault: noop
 };
 
 const mockChangeEvent = {
@@ -40,7 +42,7 @@ const mockChangeEvent = {
   }
 };
 
-const userAnswer = [true, false, false, false];
+const userAnswer: boolean[] = [true, false, false, false];
 
 describe(`QuestionGenreScreen component`, () => {
   it(`Callback "onSubmit" receive correct args`, () => {
@@ -51,9 +53,9 @@ describe(`QuestionGenreScreen component`, () => {
         <QuestionGenreScreen
           onSubmit = {onSubmit}
           userAnswers = {userAnswer}
-          onChange = {() => {}}
+          onChange = {noop}
           question = {question}
-          renderPlayer = {() => {}}
+          renderPlayer = {noop}
         />);
     const form = wrapper.find(`.game__tracks`);
     const inputs = wrapper.find(`.game__input`);
@@ -79,9 +81,9 @@ describe(`QuestionGenreScreen component`, () => {
         <QuestionGenreScreen
           onSubmit = {onSubmit}
           userAnswers = {userAnswer}
-          onChange = {() => {}}
+          onChange = {noop}
           question = {question}
-          renderPlayer = {() => {}}
+          renderPlayer = {noop}
         />);
     const form = wrapper.find(`.game__tracks`);
     form.simulate(`submit`, {

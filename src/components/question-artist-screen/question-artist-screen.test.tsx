@@ -1,9 +1,12 @@
-import React from "react";
-import renderer from "react-test-renderer";
-import QuestionArtistScreen from './question-artist-screen.jsx';
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 
-const question = {
-  type: `artist`,
+import QuestionArtistScreen from './question-artist-screen';
+import {ArtistQuestion, GameType} from '../../types';
+import {noop} from '../../utils';
+
+const question: ArtistQuestion = {
+  type: GameType.ARTIST,
   artist: `true-person`,
   trackSrc: `src-for-track`,
   answers: [
@@ -26,8 +29,8 @@ it(`Render QuestionArtistScreen component`, () => {
   const tree = renderer
     .create(<QuestionArtistScreen
       question = {question}
-      onAnswer = {() => {}}
-      renderPlayer = {() => {}}
+      onAnswer = {noop}
+      renderPlayer = {noop}
     />)
     .toJSON();
 

@@ -1,14 +1,16 @@
-import React from "react";
-import Enzyme from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import * as React from "react";
+import * as Enzyme from "enzyme";
+import * as Adapter from "enzyme-adapter-react-16";
 import {shallow} from "enzyme";
 
-import QuestionArtistScreen from './question-artist-screen.jsx';
+import QuestionArtistScreen from './question-artist-screen';
+import {ArtistQuestion, GameType} from '../../types';
+import {noop} from '../../utils';
 
 Enzyme.configure({adapter: new Adapter()});
 
-const question = {
-  type: `artist`,
+const question: ArtistQuestion = {
+  type: GameType.ARTIST,
   artist: `true-person`,
   trackSrc: `src-for-track`,
   answers: [
@@ -28,7 +30,7 @@ const question = {
 };
 
 const mockEvent = {
-  preventDefault() {}
+  preventDefault: noop
 };
 
 describe(`QuestionArtistScreen component`, () => {
@@ -37,7 +39,7 @@ describe(`QuestionArtistScreen component`, () => {
 
     const userAnswer = `true-person`;
 
-    const wrapper = shallow(<QuestionArtistScreen question = {question} onAnswer = {onAnswer} renderPlayer = {() => {}}/>);
+    const wrapper = shallow(<QuestionArtistScreen question={question} onAnswer={onAnswer} renderPlayer={noop} />);
     const input = wrapper.find(`.artist__input`).at(0);
 
     input.simulate(`change`, mockEvent);

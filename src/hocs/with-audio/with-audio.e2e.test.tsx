@@ -1,12 +1,18 @@
-import React from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 import {configure, mount} from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
-import withAudio from "./with-audio.js";
+import * as Adapter from "enzyme-adapter-react-16";
+
+import withAudio from './with-audio';
+import {noop} from '../../utils';
 
 configure({adapter: new Adapter()});
 
-const Player = (props) => {
+interface PlayerProps {
+  onClick: () => void;
+  children: React.ReactNode;
+}
+
+const Player: React.FunctionComponent<PlayerProps> = (props: PlayerProps) => {
   const {onClick, children} = props;
   return (
     <div>
@@ -14,14 +20,6 @@ const Player = (props) => {
       {children}
     </div>
   );
-};
-
-Player.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]).isRequired,
 };
 
 it(`Checks that HOC's callback turn on audio (play)`, () => {
@@ -35,17 +33,17 @@ it(`Checks that HOC's callback turn on audio (play)`, () => {
     src=""
   />);
 
-  window.HTMLMediaElement.prototype.play = () => {};
+  window.HTMLMediaElement.prototype.play = noop;
 
-  const {_audioRef} = wrapper.instance();
+  const {audioRef} = wrapper.instance();
 
-  jest.spyOn(_audioRef.current, `play`);
+  jest.spyOn(audioRef.current, `play`);
 
   wrapper.instance().componentDidMount();
 
   wrapper.find(`button`).simulate(`click`);
 
-  expect(_audioRef.current.play).toHaveBeenCalledTimes(1);
+  expect(audioRef.current.play).toHaveBeenCalledTimes(1);
 });
 
 it(`Checks that HOC's callback turn off audio (pause)`, () => {
@@ -58,15 +56,15 @@ it(`Checks that HOC's callback turn off audio (pause)`, () => {
     src=""
   />);
 
-  window.HTMLMediaElement.prototype.pause = () => {};
+  window.HTMLMediaElement.prototype.pause = noop;
 
-  const {_audioRef} = wrapper.instance();
+  const {audioRef} = wrapper.instance();
 
-  jest.spyOn(_audioRef.current, `pause`);
+  jest.spyOn(audioRef.current, `pause`);
 
   wrapper.instance().componentDidMount();
 
   wrapper.find(`button`).simulate(`click`);
 
-  expect(_audioRef.current.pause).toHaveBeenCalledTimes(1);
+  expect(audioRef.current.pause).toHaveBeenCalledTimes(1);
 });

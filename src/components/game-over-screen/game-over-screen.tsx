@@ -1,14 +1,14 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
-import { AppRoute } from '../../consts';
+import {AppRoute} from '../../consts';
 
 interface Props {
   onRepeat: () => void;
 }
 
 const GameOverScreen: React.FunctionComponent<Props> = (props: Props) => {
-  const { onRepeat } = props;
+  const {onRepeat} = props;
 
   return (
     <section className="result">

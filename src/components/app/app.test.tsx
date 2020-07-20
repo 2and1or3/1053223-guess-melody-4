@@ -1,13 +1,16 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 
-import {App} from './app.jsx';
-import {mockAudioNode} from '../../utils.js';
+import {App} from './app';
+import {mockAudioNode, noop} from '../../utils';
+import {GenreQuestion, ArtistQuestion, GameType} from '../../types';
 
 
-const questions = [
+type Question = GenreQuestion | ArtistQuestion;
+
+const questions: Question[] = [
   {
-    type: `genre`,
+    type: GameType.GENRE,
     genre: `rock`,
     answers: [
       {
@@ -29,7 +32,7 @@ const questions = [
     ]
   },
   {
-    type: `artist`,
+    type: GameType.ARTIST,
     artist: `true-person`,
     trackSrc: `src-for-track`,
     answers: [
@@ -54,23 +57,18 @@ const commonProps = {
   questions,
   mistakes: 0,
   step: -1,
-  onPlayClick: () => {},
-  onAnswer: () => {},
-  onRepeat: () => {},
-  onAuthSubmit: () => {},
+  onPlayClick: noop,
+  onAnswer: noop,
+  onRepeat: noop,
+  onAuthSubmit: noop,
   userStatus: `NO_AUTH`,
-  onGoToWelcome: () => {},
+  onGoToWelcome: noop,
 };
 
 describe(`Render App component`, () => {
   it(`Render WelcomeScreen component`, () => {
     const tree = renderer
-      .create(
-          <App
-            {...commonProps}
-            step = {-1}
-          />
-      )
+      .create(<App {...commonProps} step={-1} />)
       .toJSON();
 
     expect(tree).toMatchSnapshot();
@@ -78,14 +76,10 @@ describe(`Render App component`, () => {
 
   it(`Render QuestionGenreScreen component`, () => {
     const tree = renderer
-    .create(
-        <App
-          {...commonProps}
-          step = {0}
-        />, {
-          createNodeMock: mockAudioNode
-        }
-    )
+      .create(<App {...commonProps} step={0} />, {
+        createNodeMock: mockAudioNode
+      }
+      )
       .toJSON();
 
     expect(tree).toMatchSnapshot();
@@ -93,14 +87,10 @@ describe(`Render App component`, () => {
 
   it(`Render QuestionArtistScreen component`, () => {
     const tree = renderer
-    .create(
-        <App
-          {...commonProps}
-          step = {1}
-        />, {
-          createNodeMock: mockAudioNode
-        }
-    )
+      .create(<App {...commonProps} step={1} />, {
+        createNodeMock: mockAudioNode
+      }
+      )
       .toJSON();
 
     expect(tree).toMatchSnapshot();

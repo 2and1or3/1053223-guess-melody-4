@@ -6,7 +6,7 @@ interface Props {
 }
 
 const WelcomeScreen: React.FunctionComponent<Props> = (props: Props) => {
-  const { errorCount, onPlayClick } = props;
+  const {errorCount, onPlayClick} = props;
 
   return (
     <section className="welcome">

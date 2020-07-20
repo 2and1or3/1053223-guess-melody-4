@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Subtract } from "utility-types";
+import {Subtract} from "utility-types";
 
-import { GenreQuestion } from '../../types';
+import {GenreQuestion} from '../../types';
 
 interface Props {
   onAnswer: (question: GenreQuestion, answer: boolean[]) => void;
@@ -37,20 +37,20 @@ const withUserAnswer = (Component) => {
     }
 
     _handleSubmit() {
-      const { onAnswer, question } = this.props;
+      const {onAnswer, question} = this.props;
 
       onAnswer(question, this.state.answers);
     }
 
     _handleChange(value, i) {
-      const { answers: userAnswers } = this.state;
+      const {answers: userAnswers} = this.state;
       this.setState({
         answers: [...userAnswers.slice(0, i), value, ...userAnswers.slice(i + 1)]
       });
     }
 
     render() {
-      const { answers: userAnswers } = this.state;
+      const {answers: userAnswers} = this.state;
 
       return (
         <Component

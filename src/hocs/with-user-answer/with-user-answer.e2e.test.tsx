@@ -1,17 +1,20 @@
-import React from "react";
-import Enzyme from "enzyme";
+import * as React from "react";
+import * as Enzyme from "enzyme";
 import {shallow} from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import * as Adapter from "enzyme-adapter-react-16";
 
-import withUserAnswer from './with-user-answer.js';
+import withUserAnswer from './with-user-answer';
+import {GenreQuestion, GameType} from '../../types';
+import {noop} from '../../utils';
+
 
 Enzyme.configure({adapter: new Adapter()});
 
 const MockComponent = () => <div/>;
 const MockComponentWrapped = withUserAnswer(MockComponent);
 
-const question = {
-  type: `genre`,
+const question: GenreQuestion = {
+  type: GameType.GENRE,
   genre: `rock`,
   answers: [
     {
@@ -37,7 +40,7 @@ it(`HOC WithUserAnswer works correctly`, () => {
   const wrapper = shallow(
       <MockComponentWrapped
         question = {question}
-        onAnswer = {() => {}}
+        onAnswer = {noop}
       />);
 
 

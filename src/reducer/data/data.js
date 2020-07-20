@@ -1,5 +1,5 @@
-import {extend, adapterToLocalQuestions} from '../../utils.js';
-import {URL} from '../../consts.js';
+import {extend, adapterToLocalQuestions} from '../../utils';
+import {URL} from '../../consts';
 
 
 const initialState = {

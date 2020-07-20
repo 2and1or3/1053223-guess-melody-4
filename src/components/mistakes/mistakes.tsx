@@ -6,7 +6,7 @@ interface Props {
 }
 
 const Mistakes: React.FunctionComponent<Props> = (props: Props) => {
-  const { maxMistakes, mistakes } = props;
+  const {maxMistakes, mistakes} = props;
   const empty = Array(maxMistakes).fill(``);
 
   return (

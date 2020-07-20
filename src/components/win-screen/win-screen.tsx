@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
-import { AppRoute } from '../../consts';
+import {AppRoute} from '../../consts';
 
 interface Props {
   onRepeat: () => void;
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const WinScreen: React.FunctionComponent<Props> = (props: Props) => {
-  const { onRepeat, quantity, mistakes } = props;
+  const {onRepeat, quantity, mistakes} = props;
 
   return (
     <section className="result">

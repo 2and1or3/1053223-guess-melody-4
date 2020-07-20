@@ -1,9 +1,9 @@
 import * as React from "react";
-import { Route, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
+import {Route, Redirect} from "react-router-dom";
+import {connect} from "react-redux";
 
-import { AuthorizationStatus, AppRoute } from '../../consts';
-import { getUserStatus } from '../../reducer/user/selectors';
+import {AuthorizationStatus, AppRoute} from '../../consts';
+import {getUserStatus} from '../../reducer/user/selectors';
 
 interface Props {
   exact: boolean;
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const PrivateRoute: React.FunctionComponent<Props> = (props: Props) => {
-  const { exact, render, path, userStatus } = props;
+  const {exact, render, path, userStatus} = props;
 
   const isAllow = userStatus === AuthorizationStatus.AUTH;
   return (
@@ -38,5 +38,5 @@ const mapStateToProps = (state) => ({
 
 const ConnectedPrivateRoute = connect(mapStateToProps, null)(PrivateRoute);
 
-export { PrivateRoute };
+export {PrivateRoute};
 export default ConnectedPrivateRoute;

@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import QuestionGenreItem from '../question-genre-item/question-genre-item';
-import { GenreQuestion } from '../../types.ts';
+import {GenreQuestion} from '../../types';
 
 interface Props {
   question: GenreQuestion;
@@ -13,8 +13,8 @@ interface Props {
 
 class QuestionGenreScreen extends React.PureComponent<Props> {
   render() {
-    const { question, renderPlayer, userAnswers, onSubmit, onChange } = this.props;
-    const { answers, genre } = question;
+    const {question, renderPlayer, userAnswers, onSubmit, onChange} = this.props;
+    const {answers, genre} = question;
 
     return (
       <section className="game__screen">
@@ -26,7 +26,7 @@ class QuestionGenreScreen extends React.PureComponent<Props> {
             onSubmit();
           }}>
           {answers.map((answer, i) => {
-            const { genre: genreAnswer, src } = answer;
+            const {genre: genreAnswer, src} = answer;
             return (
               <QuestionGenreItem
                 genreAnswer={genreAnswer}

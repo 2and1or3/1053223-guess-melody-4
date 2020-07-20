@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Subtract } from "utility-types";
+import {Subtract} from "utility-types";
 
 interface Props {
   isPlaying: boolean;
@@ -45,25 +45,25 @@ const withAudio = (Component) => {
 
     _handleClick() {
       this.setState((state) => {
-        return { isPlaying: !state.isPlaying };
+        return {isPlaying: !state.isPlaying};
       });
 
       this.props.onPlayButtonClick();
     }
 
     componentDidMount() {
-      const { src } = this.props;
+      const {src} = this.props;
       const audio = this.audioRef.current;
 
       audio.src = src;
 
-      audio.oncanplaythrough = () => this.setState({ isLoading: false });
+      audio.oncanplaythrough = () => this.setState({isLoading: false});
 
-      audio.onplay = () => this.setState({ isPlaying: true });
+      audio.onplay = () => this.setState({isPlaying: true});
 
-      audio.onpause = () => this.setState({ isPlaying: false });
+      audio.onpause = () => this.setState({isPlaying: false});
 
-      audio.ontimeupdate = () => this.setState({ progress: Math.floor(audio.currentTime) });
+      audio.ontimeupdate = () => this.setState({progress: Math.floor(audio.currentTime)});
     }
 
     componentDidUpdate() {
@@ -87,7 +87,7 @@ const withAudio = (Component) => {
     }
 
     render() {
-      const { isPlaying, isLoading } = this.state;
+      const {isPlaying, isLoading} = this.state;
 
       return (
         <Component

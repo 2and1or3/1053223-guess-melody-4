@@ -1,14 +1,15 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 import {BrowserRouter} from "react-router-dom";
 
-import GameOverScreen from './game-over-screen.jsx';
+import GameOverScreen from './game-over-screen';
+import {noop} from '../../utils';
 
 it(`Render GameOverScreen component`, () => {
   const tree = renderer
     .create(
         <BrowserRouter>
-          <GameOverScreen onRepeat = {() => {}}/>
+          <GameOverScreen onRepeat = {noop}/>
         </BrowserRouter>
     )
     .toJSON();

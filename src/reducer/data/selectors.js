@@ -1,4 +1,4 @@
-import NameSpace from '../namespace.js';
+import NameSpace from '../namespace';
 
 const getQuestions = (state) => state[NameSpace.DATA].questions;
 

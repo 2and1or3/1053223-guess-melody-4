@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Link, Redirect } from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 
-import { AppRoute, AuthorizationStatus } from '../../consts';
+import {AppRoute, AuthorizationStatus} from '../../consts';
 
 interface Props {
   onRepeat: () => void;
@@ -24,7 +24,7 @@ class AuthorizationScreen extends React.PureComponent<Props> {
 
   _onAuthSubmit(evt) {
     evt.preventDefault();
-    const { onAuthSubmit } = this.props;
+    const {onAuthSubmit} = this.props;
 
     const login = this.loginRef.current.value;
     const password = this.passwordRef.current.value;
@@ -33,7 +33,7 @@ class AuthorizationScreen extends React.PureComponent<Props> {
   }
 
   render() {
-    const { onRepeat, userStatus } = this.props;
+    const {onRepeat, userStatus} = this.props;
 
     const isAllow = userStatus === AuthorizationStatus.AUTH;
 

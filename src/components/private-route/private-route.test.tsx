@@ -1,8 +1,8 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 import {BrowserRouter} from "react-router-dom";
 
-import {PrivateRoute} from './private-route.jsx';
+import {PrivateRoute} from './private-route';
 
 it(`Render PrivateRoute component`, () => {
   const tree = renderer

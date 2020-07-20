@@ -1,4 +1,4 @@
-import {reducer, ActionType, ActionCreator} from './game.js';
+import {reducer, ActionType, ActionCreator} from './game';
 
 
 describe(`Reducer works correctly`, () => {
