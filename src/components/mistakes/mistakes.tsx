@@ -1,8 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 
-const Mistakes = (props) => {
-  const {maxMistakes, mistakes} = props;
+interface Props {
+  maxMistakes: number;
+  mistakes: number;
+}
+
+const Mistakes: React.FunctionComponent<Props> = (props: Props) => {
+  const { maxMistakes, mistakes } = props;
   const empty = Array(maxMistakes).fill(``);
 
   return (
@@ -10,11 +14,6 @@ const Mistakes = (props) => {
       {empty.map((el, i) => <div key={i} className={mistakes > i ? `wrong` : ``}></div>)}
     </div>
   );
-};
-
-Mistakes.propTypes = {
-  maxMistakes: PropTypes.number.isRequired,
-  mistakes: PropTypes.number.isRequired,
 };
 
 export default Mistakes;

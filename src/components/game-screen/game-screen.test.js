@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import {BrowserRouter} from "react-router-dom";
 
 import GameScreen from './game-screen.jsx';
-import {GameType} from '../../consts.js';
+import {GameType} from '../../types.ts';
 
 it(`Render GameScreen component with artist type`, () => {
   const tree = renderer

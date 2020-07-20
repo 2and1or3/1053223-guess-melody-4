@@ -1,13 +1,26 @@
-import React from "react";
-import {PureComponent} from "react";
+import * as React from "react";
+import { Subtract } from "utility-types";
 
-import AudioPlayer from '../../components/audio-player/audio-player.jsx';
-import withAudio from '../with-audio/with-audio.js';
+import AudioPlayer from '../../components/audio-player/audio-player';
+import withAudio from '../with-audio/with-audio';
 
 const AudioPlayerWrapped = withAudio(AudioPlayer);
 
+interface State {
+  activePlayer: number;
+}
+
+interface InjectedProps {
+  renderPlayer: (src: string, id: number) => React.ReactNode;
+}
+
 const withActivePlayer = (Component) => {
-  class WithActivePlayer extends PureComponent {
+
+  type WrappedComponentProps = React.ComponentProps<typeof Component>
+
+  type Self = Subtract<WrappedComponentProps, InjectedProps>
+
+  class WithActivePlayer extends React.PureComponent<Self, State> {
     constructor(props) {
       super(props);
 
@@ -17,17 +30,17 @@ const withActivePlayer = (Component) => {
     }
 
     render() {
-      const {activePlayer} = this.state;
+      const { activePlayer } = this.state;
 
       return (
         <Component
           {...this.props}
-          renderPlayer = {(src, id) => {
+          renderPlayer={(src, id) => {
             return (
               <AudioPlayerWrapped
-                isPlaying = {id === activePlayer}
-                src = {src}
-                onPlayButtonClick={() => this.setState({activePlayer: activePlayer === id ? -1 : id})}
+                isPlaying={id === activePlayer}
+                src={src}
+                onPlayButtonClick={() => this.setState({ activePlayer: activePlayer === id ? -1 : id })}
               />
             );
           }}
@@ -35,8 +48,6 @@ const withActivePlayer = (Component) => {
       );
     }
   }
-
-  WithActivePlayer.propTypes = {};
 
   return WithActivePlayer;
 };

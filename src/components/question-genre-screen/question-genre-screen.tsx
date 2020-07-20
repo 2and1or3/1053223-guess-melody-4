@@ -1,14 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
-import {PureComponent} from "react";
+import * as React from "react";
 
-import QuestionGenreItem from '../question-genre-item/question-genre-item.jsx';
-import {genreProp} from '../../props.js';
+import QuestionGenreItem from '../question-genre-item/question-genre-item';
+import { GenreQuestion } from '../../types.ts';
 
-class QuestionGenreScreen extends PureComponent {
+interface Props {
+  question: GenreQuestion;
+  renderPlayer: (src: string, id: number) => React.ReactNode;
+  userAnswers: boolean[];
+  onSubmit: () => void;
+  onChange: (value: boolean, id: number) => void;
+}
+
+class QuestionGenreScreen extends React.PureComponent<Props> {
   render() {
-    const {question, renderPlayer, userAnswers, onSubmit, onChange} = this.props;
-    const {answers, genre} = question;
+    const { question, renderPlayer, userAnswers, onSubmit, onChange } = this.props;
+    const { answers, genre } = question;
 
     return (
       <section className="game__screen">
@@ -20,16 +26,16 @@ class QuestionGenreScreen extends PureComponent {
             onSubmit();
           }}>
           {answers.map((answer, i) => {
-            const {genre: genreAnswer, src} = answer;
+            const { genre: genreAnswer, src } = answer;
             return (
               <QuestionGenreItem
-                genreAnswer = {genreAnswer}
-                id = {i}
-                src = {src}
-                renderPlayer = {renderPlayer}
-                userAnswer = {userAnswers[i]}
-                onChange = {onChange}
-                key = {genreAnswer + i}
+                genreAnswer={genreAnswer}
+                id={i}
+                src={src}
+                renderPlayer={renderPlayer}
+                userAnswer={userAnswers[i]}
+                onChange={onChange}
+                key={genreAnswer + i}
               />);
           })}
           <button className="game__submit button" type="submit">Ответить</button>
@@ -38,13 +44,5 @@ class QuestionGenreScreen extends PureComponent {
     );
   }
 }
-
-QuestionGenreScreen.propTypes = {
-  question: genreProp,
-  renderPlayer: PropTypes.func.isRequired,
-  userAnswers: PropTypes.arrayOf(PropTypes.bool.isRequired).isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
 
 export default QuestionGenreScreen;

@@ -1,11 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 
-import {artistProp} from '../../props.js';
+import { ArtistQuestion } from '../../types.ts';
 
-const QuestionArtistScreen = (props) => {
-  const {question, onAnswer, renderPlayer} = props;
-  const {answers, trackSrc: src} = question;
+interface Props {
+  question: ArtistQuestion;
+  onAnswer: (question: ArtistQuestion, answer: string) => void;
+  renderPlayer: (src: string, id: number) => React.ReactNode;
+}
+
+const QuestionArtistScreen: React.FunctionComponent<Props> = (props: Props) => {
+  const { question, onAnswer, renderPlayer } = props;
+  const { answers, trackSrc: src } = question;
 
   return (
     <section className="game__screen">
@@ -18,7 +23,7 @@ const QuestionArtistScreen = (props) => {
 
       <form className="game__artist">
         {answers.map((answer, i) => {
-          const {artist, pictureSrc: pic} = answer;
+          const { artist, pictureSrc: pic } = answer;
 
           return (
             <div className="artist" key={artist + i}>
@@ -31,9 +36,9 @@ const QuestionArtistScreen = (props) => {
                 onChange={(evt) => {
                   evt.preventDefault();
                   onAnswer(question, artist);
-                }}/>
+                }} />
               <label className="artist__name" htmlFor={artist + i}>
-                <img className="artist__picture" src={pic} alt={artist}/>
+                <img className="artist__picture" src={pic} alt={artist} />
                 {artist}
               </label>
             </div>
@@ -42,12 +47,6 @@ const QuestionArtistScreen = (props) => {
       </form>
     </section>
   );
-};
-
-QuestionArtistScreen.propTypes = {
-  question: artistProp,
-  onAnswer: PropTypes.func.isRequired,
-  renderPlayer: PropTypes.func.isRequired,
 };
 
 export default QuestionArtistScreen;

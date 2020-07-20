@@ -1,36 +1,34 @@
-import React from "react";
-import {Route, Redirect} from "react-router-dom";
-import {connect} from "react-redux";
-import PropTypes from "prop-types";
+import * as React from "react";
+import { Route, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
-import {AuthorizationStatus, AppRoute} from '../../consts.js';
-import {getUserStatus} from '../../reducer/user/selectors.js';
+import { AuthorizationStatus, AppRoute } from '../../consts';
+import { getUserStatus } from '../../reducer/user/selectors';
 
+interface Props {
+  exact: boolean;
+  render: () => React.ReactNode;
+  path: string;
+  userStatus: string;
+}
 
-const PrivateRoute = (props) => {
-  const {exact, render, path, userStatus} = props;
+const PrivateRoute: React.FunctionComponent<Props> = (props: Props) => {
+  const { exact, render, path, userStatus } = props;
 
   const isAllow = userStatus === AuthorizationStatus.AUTH;
   return (
     <Route
-      exact = {exact}
-      path = {path}
+      exact={exact}
+      path={path}
 
-      render = {() => {
+      render={() => {
         return (
           isAllow ? render() :
-            <Redirect to = {AppRoute.LOGIN} />
+            <Redirect to={AppRoute.LOGIN} />
         );
       }}
     />
   );
-};
-
-PrivateRoute.propTypes = {
-  exact: PropTypes.bool.isRequired,
-  render: PropTypes.func.isRequired,
-  path: PropTypes.string.isRequired,
-  userStatus: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -40,5 +38,5 @@ const mapStateToProps = (state) => ({
 
 const ConnectedPrivateRoute = connect(mapStateToProps, null)(PrivateRoute);
 
-export {PrivateRoute};
+export { PrivateRoute };
 export default ConnectedPrivateRoute;

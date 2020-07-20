@@ -1,10 +1,17 @@
-import React from "react";
-import {PureComponent} from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 
-class QuestionGenreItem extends PureComponent {
+interface Props {
+  genreAnswer: string;
+  src: string;
+  id: number;
+  renderPlayer: (src: string, id: number) => React.ReactNode;
+  userAnswer: boolean;
+  onChange: (value: boolean, id: number) => void;
+}
+
+class QuestionGenreItem extends React.PureComponent<Props> {
   render() {
-    const {genreAnswer, src, id, renderPlayer, userAnswer, onChange} = this.props;
+    const { genreAnswer, src, id, renderPlayer, userAnswer, onChange } = this.props;
 
     return (
       <div className="track" key={genreAnswer + id}>
@@ -21,21 +28,12 @@ class QuestionGenreItem extends PureComponent {
               const value = evt.target.checked;
 
               onChange(value, id);
-            }}/>
+            }} />
           <label className="game__check" htmlFor={genreAnswer + id}>Отметить</label>
         </div>
       </div>
     );
   }
 }
-
-QuestionGenreItem.propTypes = {
-  genreAnswer: PropTypes.string.isRequired,
-  src: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
-  renderPlayer: PropTypes.func.isRequired,
-  userAnswer: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
 
 export default QuestionGenreItem;

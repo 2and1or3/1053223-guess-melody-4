@@ -1,4 +1,4 @@
-import {GameType} from '../../consts.js';
+import {GameType} from '../../types.ts';
 import {extend} from '../../utils.js';
 
 

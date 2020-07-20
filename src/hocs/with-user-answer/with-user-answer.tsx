@@ -1,11 +1,30 @@
-import React from "react";
-import {PureComponent} from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
+import { Subtract } from "utility-types";
 
-import {genreProp} from '../../props.js';
+import { GenreQuestion } from '../../types';
+
+interface Props {
+  onAnswer: (question: GenreQuestion, answer: boolean[]) => void;
+  question: GenreQuestion;
+}
+
+interface State {
+  answers: boolean[];
+}
+
+interface InjectedProps {
+  userAnswers: boolean[];
+  onSubmit: () => void;
+  onChange: (value: boolean, i: number) => void;
+}
 
 const withUserAnswer = (Component) => {
-  class WithUserAnswer extends PureComponent {
+
+  type WrappedComponentProps = React.ComponentProps<typeof Component>
+
+  type Self = Props & Subtract<WrappedComponentProps, InjectedProps>
+
+  class WithUserAnswer extends React.PureComponent<Self, State> {
     constructor(props) {
       super(props);
 
@@ -18,36 +37,31 @@ const withUserAnswer = (Component) => {
     }
 
     _handleSubmit() {
-      const {onAnswer, question} = this.props;
+      const { onAnswer, question } = this.props;
 
       onAnswer(question, this.state.answers);
     }
 
     _handleChange(value, i) {
-      const {answers: userAnswers} = this.state;
+      const { answers: userAnswers } = this.state;
       this.setState({
         answers: [...userAnswers.slice(0, i), value, ...userAnswers.slice(i + 1)]
       });
     }
 
     render() {
-      const {answers: userAnswers} = this.state;
+      const { answers: userAnswers } = this.state;
 
       return (
         <Component
           {...this.props}
-          userAnswers = {userAnswers}
-          onSubmit = {this._handleSubmit}
-          onChange = {this._handleChange}
+          userAnswers={userAnswers}
+          onSubmit={this._handleSubmit}
+          onChange={this._handleChange}
         />
       );
     }
   }
-
-  WithUserAnswer.propTypes = {
-    onAnswer: PropTypes.func.isRequired,
-    question: genreProp,
-  };
 
   return WithUserAnswer;
 };
